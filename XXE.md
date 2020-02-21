@@ -9,5 +9,4 @@ Well.......It doesn't really do anything. It is just used to store and share dat
 #sample XML code here
 
 What is XML external entity injection?
-
-
+XXE is when
