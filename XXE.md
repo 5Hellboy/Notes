@@ -17,7 +17,26 @@ XML external entities would look something like this
 #sample XML code here
 
 What is XML external entity injection?
-XXE is when
+
+
+
+
+<h2>Exploiting XXE using externa entities to retrieve files</h2>
+
+
+<h2>Exploiting XXE to perform SSRF attacks<h2>
+
+  <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>
+  
+ 
+
+<h2>Blind XXE vulnerabilities</h2>
+Blind XXE injection occours when the attacker has no way to analyzing the output/response of the server. Sometimes the server does not return back any useful response. So in order to find  
+
+
+
+
+
 
 
 
