@@ -1,7 +1,3 @@
----
-description: Amazon Elastic Compute Cloud
----
-
 # EC2
 
 ## EC2 aka Elastic Compute Cloud  <a id="firstHeading"></a>
@@ -22,9 +18,21 @@ Security groups are like a **firewall** that control the inbound and the outboun
 * inbound - allows traffic into the EC2. \(should be controlled properly\)
 * outbound - traffic that goes out of the EC2 machine.
 
+{% hint style="info" %}
+Security groups are firewalls **outside** the EC2 instance. i.e they live outside the EC2.
 
+Can be attached to multiple instances.
 
+Maintain a **separate security group for SSH access.**
 
+Security groups are locked down to a region/VPC combination.
+
+If you application **times out** then its a **security group issue** as the traffic has not even reached the EC2 instance.
+
+If you get a **connection refused** error then its an **application issue** as the traffic has reached the instance but refused by the application.
+
+By default, All **inbound** traffic is **blocked** and All **outbound** traffic is **authorized**.
+{% endhint %}
 
 
 
