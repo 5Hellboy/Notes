@@ -89,14 +89,39 @@ To connect to EC2 using SSH, make sure you set the permissions of the SSH key fo
 
 * Can get upto 90% discount compared to on-demand.
 * We can lose the instance at any point of time based on the price we pay. **If the max price &lt; current spot price: we lose instance.**
+  * Hourly price varies based on offer and capacity.
+    * if \(current price &gt; max price\) : 2 minutes grace period to {
+
+      Stop or termiate
+
+      } 
 * **Most** cost efficient in AWS.
+* **Spot block:** 
+  * **"block"** spot instance during a specified time frame \(1 to 6 hours without interruptions\) 
+  * In rare situations, the instance may be reclaimed.
+  * You can cancel spot requests that are **open,active or disabled.**
+  * **Cancelling a spot request does not terminate instances.**
+  * **Cancel the spot request and then terminate the associated spot instances.**
 * Use for workloads that are resilient to failure
   * Batch jobs
   * Data analysis
   * Image processing
   * **stuff that we can retry**
 * **Not great for critical jobs or databases \(because we can lose them\)**
-* **Great combo: Reserved instances for baseline + On-demand & Spot for peaks.** Reserved can be used for web apps. Unpredictable stuff can get on-demand or spot istances.
+* **Great combo: Reserved instances for baseline + On-demand & Spot for peaks.** Reserved can be used for web apps. Unpredictable stuff can get on-demand or spot istances
+* * **Spot Fleets \(SAA CO2\)**[Introduction](https://app.gitbook.com/@shivaji/s/awsaa/~/drafts/-M5Yd8A1PJA1Hg8sfUF6/)
+
+  * **set of spot instances + \(optional\) On-Demand Instances**
+  * Will try its best to meet the target capacity with price constraints. 
+    * Define possible launch pools: instance type, OS, Availability Zones.
+    * Can have multiple launch pools, so that the fleet can choose the best and most appropriate launch pools.
+    * It stops when reaching capacity or max cost. 
+  * Strategies to allocate spot instances:
+    * **lowestPrice**: _launch instances from the pool with the lowest price_ \(cost optimization, short workloads\) \*\*
+    * **diversified**: distributed across all pools \(great for availability, long workloads\)
+    * **capacityOptimized:** pool with the optimal capacity for number of instances. 
+  * **Spot Fleets allow us to automatically request Spot Instances with the lowest price.**
+  * **Can be reclaimed by AWS.**
 
 #### EC2 Dedicated Hosts 
 
@@ -113,4 +138,58 @@ To connect to EC2 using SSH, make sure you set the permissions of the SSH key fo
 * Instances running on hardware that's dedicated to you. 
 * May share hardware with other instances in same account.
 * No control over instance placement \(can move hardware after stop/start\)
+
+### **AWS Instance types** 
+
+* **R**: applications that need a lot of **RAM**  in memory caches/memory databases
+* **C**: applications that needs good **CPU** - computations / databases
+* **M**: applications that are balanced \(think "**medium**"\)  - general / web application 
+* **I**: applications that need good **I/O** \(instance storage\) - databases
+* **G**: applications that need a **GPU** - video rendering / machine learning.
+* * **T2/T3**: **burstable** instances\( up to a capacity\) - over use a burst then you lose the burst. good performance for a short while.
+  * Burst means that overall, the instance has OK CPU performance.
+  * during burst, then CPU can be very good.
+  * If **machine bursts, it utilizes "burst credits"**
+  * if **all credits are gone, the CPU becomes bad**
+  * If the **machine stops bursting, credits are accumulated over time.**
+  *  ****
+  * **Amazing to handle unexpected traffic and getting insurance that it will handled correctly.**
+  * if you instance runs low on credit, you need to move to a different kind of non-burstable instance.
+* **T2/T3: unlimited**: unlimited burst.
+  * unlimited burst credit balance. 
+  * you pay extra money if you go over your credit balance, but you don't lose in performance.
+  * costs could go high if you're not monitoring the health of your instances.
+* www.ec2instances.info
+
+
+
+### AMI
+
+* images can be customized using runtime using EC2 user data.
+* AMI - an image to use to create our instances. 
+* AMI's can be built for Linux or Window machines.
+
+Why custom AMI?
+
+* Pre installed packages.
+* Faster boot time \(no need for ec2 user data at boot time\)
+* Machine comes configured with monitoring/enterprise software
+* Security concerns - control over the machines in the network
+* Active Directory Integration out of the box
+* Installing app ahead of time \(faster deploys when auto scaling\)
+* Using some one else's AMI that is optimized for running and app,DB,etc
+* * **AMI are built for a specific AWS region.**
+
+ ****
+
+* Public AMI;s are available that you can use but only use those AMI that you trust. Public AMI's are available on amazon marketplace.
+* AMI are stored on Amazon S3
+* By default AMI are locked but we can make them public
+* Charged for the actual space in amazon S3
+
+
+
+
+
+
 
