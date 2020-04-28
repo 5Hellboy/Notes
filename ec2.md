@@ -255,5 +255,26 @@ eth1 can be detached and reattached but eth0 can't
 
 
 
+### EC2 for solutions architects
 
+* EC2 instances are billed by the second, t2.micro is a free tier
+* On Linux/Mac we can use SSH, on windows you use putty
+* lock down your security group for your IP for SSH 22
+* Timeout issues -&gt; due to security group issues
+* ssh keys permission issues -&gt; run chmod 0400
+* security groups **can reference other security groups** instead of IP ranges
+* Difference between private, public and elastic IP
+* EC2 can be customized at boot time using EC2 User data.
+* * 4 EC2 launch modes:
+  * On demand
+  * Reserved
+  * Spot Instances
+  * Dedicated Hosts
+* Basic instance type: R,C,M,I,G,T2/T3
+* You can create AMI to pre-intsall software on your EC2 instances -&gt; faster boot time
+* AMI can be copied accross regions and accounts
+* EC2 instances can be started in placement groups:
+  * Cluster
+  * Spread
+  * Partition
 
