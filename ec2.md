@@ -178,7 +178,7 @@ Why custom AMI?
 * Active Directory Integration out of the box
 * Installing app ahead of time \(faster deploys when auto scaling\)
 * Using some one else's AMI that is optimized for running and app,DB,etc
-* * **AMI are built for a specific AWS region.**
+* * **AMI are built\(locked\) for a specific AWS region.**
 
  ****
 
@@ -187,7 +187,71 @@ Why custom AMI?
 * By default AMI are locked but we can make them public
 * Charged for the actual space in amazon S3
 
+\*\*\*\*
 
+**Exam Tip**
+
+* You can share an AMI with another AWS account.
+* Sharing an AMI does not affect the ownership of the AMI.
+* If you copy an AMI that has been shared with your account, you are the owner of the target AMI in your account.
+* To copy an AMI that was shared with uou from another account, the owner of the source AMI must grant you read permission for the storage that backs the AMI, either the associated EBS snapshot \(for an Amaazon EBS-backed AMI\)or an associated S3 bucked \(for instance store-backed AMI\).
+* Limits:
+* You can't copy an encrypted AMI that was shared with you from another account. Instead, if the underlying snapshot and encryption key were shared with you, you can copy the snapshot while re-encrypting it with a key of your own. You own the copied snapshot, can register it as new AMI.
+* You can't copy an AMI with an associated **billingProduct** code that was shared with you from another account. This includes Windows AMIs and AMIs from AWS Marketplace. TO copy a shared AMI with **billingProduct** code, launch an EC2 instance in your account using the shared AMI and then create an AMI from the instance. 
+* Add 'create volume' doesnt prevent users to fully copy it. they can still create EC2 instances and make the AMI.
+
+
+
+
+
+### EC2 Placement Groups
+
+Placement groups allows us to be able to control the placement of EC2 instances. Basically it allows us to place the EC2 instances in specific hardware in a specific way. There are strategies defined to control the EC2 instances. These strategies are as follows:
+
+* **Cluster:** clusters instances into a low-latency group in a single Availability Zone. 
+  * All EC2 are in same rack, in same AZ. 
+  * Great network \(10 Gbps banwidth\)
+  * Single point of failure. if rack fails, all fails.
+  * Uses:
+
+    * Big data job that needs to complete fast
+    * Application that needs extremely low latency and high network throughput.
+* **Spread:** spreads instances across the underlying hardware \(max 7 instances per group per AZ\) - used for critical applications.
+  * EC2 instances are spread on different hardware which is a good thing. 
+  * Reduced risk is simultaneous failure. 
+  * The instances are on different hardware so no single point of failure.
+  * **But, we only get 7 instances per AZ.**
+  * Uses:
+    * Applications that need to maximize high availability.
+    * Critical applications where each instance is isolated from failure from each other.
+
+
+
+* **Partition \(set of racks\):** spread across many different partitions \(which rely on different set of racks\) within an AZ. Scales to 100s of EC2 instances per group.
+  * Each partition has different EC2 instances. no shared failure accross partitions. A partition failure can affect many EC2 but not in other partitions. 
+  * **7 partitions per AZ.**
+  * Up to 100s of EC2 instances.
+  * The instances in the partition **do not** share racks with the instances in the other instances.
+  * EC2 instances get access to the partition information as metadata.
+  * Use cases: HDFS, HBase, Cassandra, Kafka, distributed stuff.
+
+### Elastic network interfaces \(ENI\)
+
+ENI are a logical component in a VPC that represents a virtual network card. It is **bound to a specific AZ.** 
+
+The ENI can have following attributes:
+
+* Primary private IPv4, one or more secondary IPv4
+* One Elastic IP \(IPv4\) per private IPv4
+* One              Public IPv4
+* One or more security groups
+* A MAC address
+
+You can create ENI independently and attach them on the fly\(move them\) on EC2 instances for failover. 
+
+eth1 can be detached and reattached but eth0 can't
+
+**Different IPs are due to different EC2 instance attachments.**
 
 
 
