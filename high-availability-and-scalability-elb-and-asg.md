@@ -108,7 +108,50 @@ Load balancers would distribute the traffic between instances that that are in r
 
 ### Auto Scaling Groups
 
-* 
+* ASG is a feature in AWS which allows us to add EC2 instances or decrease the EC2 instances on the fly or as per load. We can also set the limit of maximum and minimum EC2 instances that we have to set. This feature automatically registers new features to the load balancer. 
+* Sizes:
+  * **Minimum size**: The number of EC2 instances that we know for sure are running.
+  * **Actual Size/ Desired Capacity**: The number of EC2 that are running at the moment.
+  * **Maximum size**: The total number of EC2 added when scaled to handle load.b
+* **Auto scale alarms:**
+  * These are the conditions that trigger the scale in or scale out features. 
+  * The alarms are set on Cloudwatch metrics. The metrics can be anything we want like traffic, number of users,etc.
+  * Use launch templates/configs 
+  * **IAM roles that are attached to the ASG will get assigned to EC2 instances.** 
+  * ASG is free but the resources that it loads are not like EC2,etc.
+  * If unhealthy instances are terminated then ASG will replace it with new one.
+
+#### Auto Scaling Groups - Scaling policies
+
+* **Target Tracking Scaling:** 
+  * In this you set up like an average  CPU usage of the instances and then make decisions.
+* **Simple / Step Scaling:**
+  * We can scale up \(add instance\) or scale down \(remove instance\) based on the cloudwatch logs.
+* **Scheduled Actions:**
+  * Anticipate scaling based on some patterns like timely pattern of load,etc.
+
+#### Scaling Cool down:
+
+* The cooldown period ensures that the auto scaling doesnt launch or terminate instances before the previous scaling activities have taken affect. 
+* We can create cooldowns to apply to our specific scaling policies. Custom scaling policy period overrides default policy period.
+* for scaling down policies, amazon ec2 auto scaling needs less time to determine whether to terminate additional instances.
+* You can override the scaling policies to terminate instances faster \(default 300 seconds\) to save cost.
+
+### ASG for solutions architect
+
+* How are the instances terminated? Say in 2 different AZ's 
+  * First one to be zapped is the AZ with most instances
+  * If there are multiple instances in AZ to choose from then choose the one with oldest launch configuration. 
+* * Life cycle hooks
+  * These are like hooks that helps us configure/interact with the instance when they are about to be in service or when they are about to be terminated. you can pause their service and termination and install software or extract information.
+* * Launch template and configurations?
+  * Configs are legacy
+  * templates are newer ones
+  * templates have parameters subsets - can make reusable configs.
+  * templates can allow spot or on demand.
+  * templates can use t2 unlimited burst feature.
+  * both id of the AMI, instance type, key pair, security groups and other parameters.
+
 
 
 \*\*\*\*
