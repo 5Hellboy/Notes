@@ -2,7 +2,7 @@
 
 ## High Availability 
 
-* GOes hand in hand with horizontal scaling.
+* Goes hand in hand with horizontal scaling.
 * Running your application/system in atleast 2 data center \(AZ\)
 * Goal is to survive data loss.
 * can be passive. \(for RDS multi AZ\)
@@ -158,9 +158,91 @@ Load balancers would distribute the traffic between instances that that are in r
 
 
 
+## Questions & Answers
 
+* **What is High Availability?**
+  * High Availability means having your data/application highly available and in use. Best way to achieve that is to have the application/instances running in atleast two different AZs.
+* **What is Scalability?**
+  * Scalability is the idea of scaling the infrastructure based on the current capacity of traffic. You can scale-in i.e reduce the instances or you can scale-out i.e increase the instances.
+* **What is Vertical and Horizontal Scaling?**
+  * **Vertical:**
+    * Scaling the power of the current instance. I.e going up or down in instance capacity of handling load. Short term solution.
+  * **Horizontal:**
+    * Scaling the systems i.e increasing or decreasing the number of systems.  Long term fix. Common for distributed applications.
+* **What is Auto Scaling?**
+  * Auto scaling is a feature that allows the users to automatically increase or decrease i.e set up correct number of instances to manage the traffic. 
+* **What are Auto Scaling groups?**
+  * Auto Scaling groups is feature that allows us to create a collection of EC2 instances and set scaling policies on them. i.e set maximum/minimum/ desired number of instances.
+* **What is maximum/minimum/desired number of instances in Auto Scaling?**
+  * Minimum : Minimum number of EC2 instances that you want to handle the traffic. Auto scaling group ensures that the instance number does not go below this size.
+  * Maximum: Maximum number of EC2 instances that you want to handle the traffic. When traffic increases, the number of instances increases to manage the traffic. This number does not go above the set maximum number.
+  * Desired: The desired number of EC2 instances that you want to handle the traffic at any given point. 
+* **What is Auto Scaling alarms?**
+  * Auto scale alarms are raised when a specific criteria for instance load is met. For example, CPU usage, users logged in, network traffic,etc. When the criteria is met, the auto scale alarm is set the the scaling policy decides whether to scale in or scale out. 
+* **What are the Scaling policies?**
+  * Scaling policies define how to scale the capacity of the instances in response to the changing demand.
+* **What are different types of Scaling policies?**
+  * Simple scaling policy:
+    * Scaling policy that is set upon a single scaling adjustment. i.e Increase or Decrease the capacity based on a single policy.
+  * Step scaling policy:
+    * Scaling policies that are based on a set of scaling adjustments. 
+  * Target scaling policy:
+    * Scaling policy based on a target metric.
+  * Scheduled Actions:
+    * Scaling policies based on an anticipated even.
+* **What is Elastic Load Balancer \(ELB\)? What does it do?**
+  * Elastic load balancer balances the incoming traffic between EC2 instances. 
+  * It allows stickiness policy using cookies i.e a user is sticked to a specific instance to maintain sessions,etc.
+  * Separates out the internal and external networks. 
+  * Provides a DNS address instead of EC2 IP addresses.
+  * Conduct health checks by sending requests to instances and expecting a 200 OK response.
+  * Handles downstream failure by terminating instances using Application Security Groups. 
+* **What is Load Balancing Stickiness?**
+  * Stickiness is when you want the same instance to handle the request of the same client. This is done by a **cookie.** 
+* **Types of Elastic Load Balancers?**
+  * **Classic Load Balancer:**
+    * Provides Load Balancing for HTTP, HTTPS and TCP protocols.
+    * Not generally promoted by Amazon now.
+  * **Application Load Balancer:**
+    * Provides Load Balancing between multiple applications of the same machine.
+    * Generally supports HTTP and HTTPS protocols.
+  * **Network Load Balancer:**
+    * Useful to handle low latency situations. 
+    * Supports TCP, UDP and TLS 
+    * One static IP per AZ
+    * Handles millions of requests per second
+* **What is Cross Zone Load Balancing?**
+  * Load Balancing done between the instances that are registered with different AZ. 
+  * Enabled by default in ALB
+  * Not in NLB. \(requires $\)
+* **What is SNI? Server Name Indication**
+  * Multiple sites can be present on an instance with multiple certificates. the ALB has to make a decision based on SNI which is in HTTP Header, which certificate to server the client and which instance the traffic to forward to.
+* **What is Connection Draining**?
+  * When a connection is being terminated with an EC2 by deeming unhealthy, the LB decides to complete the remaining connections of the instance before it deregisters.
+* **How are instances terminated between AZ?**
+  * AZ with most number of instances will be chosen then the instance with oldest configurations is terminated.
+* **What is Life Cycle hooks?**
+  * Allows us to connect with the instances just before they are being terminated or being started. 
 
 \*\*\*\*
 
+## Questions
 
+* [ ] What is High Availability?
+* [ ] What is Scalability?
+* [ ] What is Vertical and Horizontal Scaling?
+* [ ] What is Auto Scaling?
+* [ ] What are Auto Scaling groups?
+* [ ] What is maximum/minimum/desired number of instances in Auto Scaling?
+* [ ] What is Auto Scaling alarms?
+* [ ] What are the Scaling policies?
+* [ ] What are different types of Scaling policies?
+* [ ] What is Elastic Load Balancer \(ELB\)? What does it do?
+* [ ] What is Load Balancing Stickiness?
+* [ ] Types of Elastic Load Balancers?
+* [ ] What is Cross Zone Load Balancing?
+* [ ] What is SNI? Server Name Indication
+* [ ] What is Connection Draining?
+* [ ] How are instances terminated between AZ?
+* [ ] What is Life Cycle hooks?
 
