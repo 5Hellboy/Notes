@@ -126,6 +126,117 @@
 * Failover is instantaneous. It is highly available.
 * Aurora costs more than RDS \(20% more\) - but it is more efficient
 
+**High Availability and Read Scaling**
+
+* 6 copies of your data acrross 3 AZ:
+  * 4 copies out of 6 needed for writes
+  * 3 copies out of 6 need for reads
+  * Self healing with peer to peer replication
+  * Storage is striped across 100s of volumes
+* One Aurora instance takes writes\(master\)
+* Automated failover for master in less than 30 seconds.
+* Master + up to 15 Aurora Read Replicas server reads
+* Support for Cross Region Replication
+
+**Aurora DB Cluster**
+
+* Read replicas can be auto scaled.
+* Writer endpoint: 
+  * DNS name that always points to the master
+  * Pointing to the master
+* Reader Endpoint: connection load balancing. 
+  * It connects automatically to all read replicas
+
+**Aurora Security**
+
+* Similar to RDS because it uses the same engine.
+* Encryption at rest using KMS
+* Automated backups, snapshots and replicas are also encrypted.
+* Encryption in flight using SSL \(same process as MySQL and Postgres\)
+* Possibility to authenticated using IAM token \(same method as RDS\)
+* You are responsible for protecting the instance with security groups.
+* You can't SSH
+
+**Aurora Serverless**
+
+* Automated database instantiation and auto-scaling based on actual usage.
+* Good for infrequent intermittent or unpredictable workloads.
+* No capacity planning needed
+* Pay per second can be more cost effective.
+
+**Global Aurora**
+
+* **Aurora Cross Region Read Replicas:**
+  * Used for disaster recover
+  * Simple to put in place
+* Aurora Global Database \(recommended\)
+  * 1 Primary Region \(read/write\)
+  * Up to 5 secondary \(read - only\) regions, replication lag is less than 1 second.
+  * Up to 16 Read Replicas per secondary region \(ASNYC\)
+  * Helps for decreasing latency
+  * Promoting another region \(for disaster recovery\) has an Recovery time objective \(RTO\) of &lt; 1 minute.
+
+### AWS ElasticCache 
+
+* RDS for caches
+* ElastiCache is to get manged  Redis or Memcached
+* Caches are in memory databases with really high performance, low latency
+* Helps reduce load off the databases for read intensive workloads.
+* Helps make your application stateless
+* Write scaling using sharding
+* Read Scaling using Read Replicas
+* Multi AZ with Failover Capability
+* AWS takes care of OS maintenance/patching, optimizations, setup, configs, monitoring, failure recovery and backups
+
+**ElastiCache SA - DB Cache**
+
+* It acts as a middle man between application and Amazon RDS. 
+* If Application queries are in cache then it will be a cache hit and the application will not talk to RDS but it will talk to cache.
+* This helps relieve load off the RDS.
+* Cache must have an invalidation strategy to make sure only the most current data is used in there.
+
+**ElastiCache SA - User Session Store**
+
+* The user logs into any of the application.
+* The application writes the session data into ElastiCache
+* The user hits another instance of our application
+* The instance retrieves the data and the user is already logged in.
+
+**ElastiCache - Redis vs Memcached**
+
+* **Redis**
+  * **Multi AZ** with Auto-Failover
+  * **Read Replicas** to scale reads and have **high availability**.
+  * Data Durability using AOF persistence.
+  * **Backup and restore features**
+* **Memcached**
+
+  * Multi-node for portioning of data \(sharding\)
+  * **Non persistent**
+  * **No backup and restore**
+  * Multi threaded architecture
+
+### ElastiCache - Redis vs Memcached
+
+* All caches in ElastiCache:
+  * Support SSL in flight encryption
+  * Do not support IAM authentication
+  * IAM policies on ElastiCache are only used for AWS API-level security
+* Redis AUTH
+  * You can set a "password/token" when you create a redis cluster
+  * This is an extra level of security for your cache on top of security.
+* Memcached
+  * Supports SASL-based authentication \(advanced\)
+
+**Patterns for ElastiCache:**
+
+* **Lazy Loading:**
+  * All the read data is cached, data can become stale in cache
+* **Write Through:**
+  * Adds or update data in the cache when written to DB \(no stale data\)
+* **Session Store:**
+  * store temporary session data in a cache \(using TTL features\)
+
 \*\*\*\*
 
 \*\*\*\*
