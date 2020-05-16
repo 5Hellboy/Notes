@@ -46,7 +46,38 @@ CNAME vs Alias?
 * Latency is evaluated in terms of user to designated AWS region.
 * Germany may be directed to the US \(if thats the lowest latency\)
 
+**Health Checks:**
 
+If an instance is unhealthy then route 53 will not send traffic to that instance. 
+
+* If it fails X heath checks then its unhealthy, same with pass
+* Default health check intervals: 30s
+* about 15 health checkers will check the endpoint health.
+* Health checks can be linked to the route53 DNS queries.
+
+**Failover Routing Policy:**
+
+* If health check fails then Route 53 will failover to a secondary endpoint.
+
+**Geolocation routing policy:**
+
+* Traffic that originates from an area affects the routing policy.
+* Should create a default policy in case theres no match.
+
+**MultiValue Routing Policy:**
+
+* Use when routing traffic to multiple resources.
+* Want to associate a Route 53 health checks with records.
+* Up to 8 healthy records are returned for each multi value query.
+* Multi value is not a substitute for having an ELB.
+
+**3rd Party Domains in Route 53**
+
+* Route 53 is also a registrar. 
+*  If you buy your domain on a 3rd party website, you can still use Route53
+
+  * By creating a Hosted Zone in Route 53
+  * Update NS records on 3rd party website to use Route 53 name server.
 
 
 
