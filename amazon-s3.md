@@ -76,3 +76,29 @@
   * If we read an object after updating, we might get the older version
   * If we delete an object, we might still be able to retrieve it for a short time
 
+**MFA-Delete: We can set up MFA to stop deletions and version controls.** 
+
+**S3 Default encryption and bucket policies:**
+
+* **Bucket policy is the old way and Default encryption settings is the new way.**
+
+**S3 Access Logs:**
+
+* Never set your logging bucket to be the monitored bucket.
+* It will create a loop and your bucket will grow in size exponentially.
+
+**S3 Replication**
+
+* Must enable versioning in source and destination
+* Cross Region Replication \(CRR\)
+* Same Region Replication \(SRR\)
+* Buckets can be in different accounts
+* Copying is asynchronous
+* Must give proper IAM permissions to S3
+
+CRR - Use case: Compliance, lower latency access, replication across accounts
+
+SRR - Use cases: log aggregation, live replication between production and test accounts.
+
+\*\*\*\*
+

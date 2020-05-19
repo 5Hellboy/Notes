@@ -8,4 +8,5 @@
 * [EBS & EFS](ebs-and-efs.md)
 * [RDS/Aurora/ElastiCache](rds-aurora-elasticache.md)
 * [Amazon S3](amazon-s3.md)
+* [AWS Credentials](aws-credentials.md)
 
